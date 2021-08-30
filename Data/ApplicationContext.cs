@@ -28,7 +28,7 @@ namespace TestCoWorking.Data
             string devRoleName = "dev";
             string managerRoleName = "manager";
 
-            string adminEmail = "1234Jeka@ukr.net";
+            string adminEmail = "Admin@gmail.com";
             string adminPassword = "12345";
             string adminNickName = "herakros";
 
