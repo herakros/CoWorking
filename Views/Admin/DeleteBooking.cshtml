@@ -1,0 +1,29 @@
+﻿@model TestCoWorking.Models.Booking
+@{
+    ViewData["Title"] = "Видалення бронювання";
+    Layout = "_AdminLayout";
+}
+
+<h1 class="text-center">Видалення бронювання</h1>
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>Ім'я</dt>
+        <dd>@Model.Name</dd>
+        <dt>Пошта</dt>
+        <dd>@Model.DevEmail</dd>
+        <dt>Початок</dt>
+        <dd>@Model.Start</dd>
+        <dt>Кінець</dt>
+        <dd>@Model.End</dd>
+    </dl>
+
+    <div>
+        <form asp-controller="Admin" asp-action="DeleteBooking" method="post">
+            <div class="form-group">
+                <input type="submit" class="form-control" value="Видалити" />
+            </div>
+        </form>
+    </div>
+</div>
+

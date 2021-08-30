@@ -1,0 +1,31 @@
+﻿@model List<TestCoWorking.Models.Booking>
+@{
+    ViewData["Title"] = "Бронювання";
+    Layout = "_ManagerLayout";
+}
+
+<h1 class="text-center">Бронювання</h1>
+
+<table class="table">
+    <tr>
+        <th>Назва</th>
+        <th>Пошта</th>
+        <th>Кількість місць</th>
+        <th>Початок</th>
+        <th>Кінець</th>
+        <th>&nbsp;</th>
+        <th>&nbsp;</th>
+    </tr>
+    @foreach (var u in Model)
+    {
+        <tr>
+            <td>@u.Name</td>
+            <td>@u.DevEmail</td>
+            <td>@u.UserCount</td>
+            <td>@u.Start</td>
+            <td>@u.End</td>
+            <td><a asp-action="Look" asp-controller="Manager" asp-route-id="@u.Id">Записатись</a></td>
+            <td><a asp-action="Comments" asp-controller="Manager" asp-route-id="@u.Id">Коментарі</a></td>
+        </tr>
+    }
+</table>

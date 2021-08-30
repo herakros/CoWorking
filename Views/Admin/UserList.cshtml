@@ -1,0 +1,31 @@
+﻿@model IEnumerable<TestCoWorking.Models.User>
+@{
+    ViewData["Title"] = "Користувачів";
+    Layout = "_AdminLayout";
+}
+
+<h1 class="text-center">Список користувів</h1>
+
+<h2>Користувачі</h2>
+
+<table class="table">
+    <tr>
+        <th>ID</th>
+        <th>Nick Name</th>
+        <th>Email</th>
+        <th>&nbsp;</th>
+        <th>&nbsp;</th>
+    </tr>
+    @foreach (var u in Model)
+    {
+        <tr>
+            <td>@u.Id</td>
+            <td>@u.NickName</td>
+            <td>@u.Email</td>
+            <td><a asp-action="EditUser" asp-controller="Admin" asp-route-id="@u.Id">Редагувати</a></td>
+            <td><a asp-action="DeleteUser" asp-controller="Admin" asp-route-id="@u.Id">Видалити</a></td>
+        </tr>
+    }
+</table>
+
+

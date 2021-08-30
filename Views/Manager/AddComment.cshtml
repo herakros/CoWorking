@@ -1,0 +1,16 @@
+﻿@model TestCoWorking.Models.Comment
+@{
+    ViewData["Title"] = "Коментувати";
+    Layout = "_ManagerLayout";
+}
+
+<h1 class="text-center">Ваш коментар</h1>
+
+<form asp-action="AddComment" asp-controller="Manager" asp-route-id="@Model.Id">
+    <div>
+        <label asp-for="Message">Ваш коментар</label>
+        <textarea type="text" asp-for="Message" class="form-control">Коментар</textarea>
+        <input type="submit" value="Додати" class="form-control"/>
+    </div>
+</form>
+

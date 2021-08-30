@@ -1,0 +1,26 @@
+﻿@model TestCoWorking.Models.Booking
+@{
+    ViewData["Title"] = "Коментарі";
+    Layout = "_ManagerLayout";
+}
+
+<h1 class="text-center">Коментарі до - @Model.Name</h1>
+
+<table class="table">
+    <tr>
+        <th>Ім'я користувача</th>
+        <th>Повідомлення</th>
+    </tr>
+    @foreach(var c in Model.Comments)
+    {
+        <tr>
+            <td>@c.UserName</td>
+            <td>@c.Message</td>
+        </tr>
+    }
+</table>
+
+<form class="form-group">
+    <h1 class="text-center"><a class="nav-link text-dark" asp-action="AddComment" asp-controller="Manager" asp-route-id="@Model.Id">Додати коментар</a></h1>
+</form>
+

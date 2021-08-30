@@ -1,0 +1,17 @@
+﻿@model TestCoWorking.Models.Booking
+@{
+    ViewData["Title"] = "Бронювання";
+    Layout = "_ManagerLayout";
+}
+
+<h1 class="text-center">Бронювання - @Model.Name</h1>
+
+<form asp-action="Follow" asp-controller="Manager" asp-route-id="@Model.Id">
+    <div class="form-group">
+        <label asp-for="UserCount" class="control-label">Кількість місць - @Model.UserCount</label>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Записатись" class="form-control" />
+    </div>
+</form>
+
