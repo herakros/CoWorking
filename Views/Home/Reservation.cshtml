@@ -1,4 +1,4 @@
-﻿@model List<TestCoWorking.Models.Booking>
+﻿@model TestCoWorking.Models.Booking[]
 @{
     ViewData["Title"] = "Reservation";
 }
@@ -9,7 +9,7 @@
     <tr>
         <th>Ім'я</th>
         <th>Пошта розробника</th>
-        <th>Кількість місць</th>
+        <th>Кількість вільних місць</th>
         <th>Початок</th>
         <th>Кінець</th>
     </tr>
@@ -18,7 +18,7 @@
         <tr>
             <td>@b.Name</td>
             <td>@b.DevEmail</td>
-            <td>@b.UserCount</td>
+            <td>@b.EmployeerCount</td>
             <td>@b.Start</td>
             <td>@b.End</td>
         </tr>

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -85,22 +86,7 @@ namespace TestCoWorking.Controllers
                 {
                     await Authenticate(user);
 
-                    if(user.Role.Name == "admin")
-                    {
-                        return RedirectToAction("Index", "Admin");
-                    }
-
-                    if(user.Role.Name == "dev")
-                    {
-                        return RedirectToAction("Account", "Development");
-                    }
-
-                    if(user.Role.Name == "manager")
-                    {
-                        return RedirectToAction("Account", "Manager");
-                    }
-
-                    return RedirectToAction("Reservation", "Home");
+                    return RedirectToAction("Account", Char.ToUpper(user.Role.Name[0]) + user.Role.Name.Substring(1));
                 }
 
                 ModelState.AddModelError("", "Неправильно введена пошта і(або) пароль");

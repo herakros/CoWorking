@@ -1,0 +1,49 @@
+﻿@model TestCoWorking.Models.Booking
+
+@{
+    ViewData["Title"] = "ConfirmBook";
+    Layout = "_AdminLayout";
+}
+
+<h1 class="text-center">Затвердити бронювання</h1>
+
+<form class="container" asp-action="ConfrimBooking" asp-controller="Admin" method="post">
+    <div class="container">
+        <h4>ID</h4>
+        <label asp-for="Id">@Model.Id</label>
+        <input asp-for="Id" value="@Model.Id" type="hidden" />
+    </div>
+    <div class="container">
+        <h4>Назва</h4>
+        <label asp-for="Name">@Model.Name</label>
+        <input asp-for="Name" value="@Model.Name" type="hidden" />
+    </div>
+    <div class="container">
+        <h4>Опис</h4>
+        <label asp-for="Description">@Model.Description</label>
+        <input asp-for="Description" value="@Model.Description" type="hidden" />
+    </div>
+    <div class="container">
+        <h4>Початок</h4>
+        <label asp-for="Start">@Model.Start</label>
+        <input asp-for="Start" value="@Model.Start" type="hidden" />
+    </div>
+    <div class="container">
+        <h4>Кінець</h4>
+        <label asp-for="End">@Model.End</label>
+        <input asp-for="End" value="@Model.End" type="hidden" />
+    </div>
+    <div class="container">
+        <h4>Пошта розробника</h4>
+        <label asp-for="DevEmail">@Model.DevEmail</label>
+        <input asp-for="DevEmail" value="@Model.DevEmail" type="hidden" />
+    </div>
+    <div class="container">
+        <h4>Кількість місць</h4>
+        <input asp-for="EmployeerCount" type="number" class="form-control" />
+    </div>
+    <div class="container">
+        <input type="submit" value="Затвердити" class="form-control" />
+    </div>
+</form>
+

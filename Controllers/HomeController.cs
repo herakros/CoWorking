@@ -26,21 +26,8 @@ namespace TestCoWorking.Controllers
             if(email != null)
             {
                 var user = db.Users.Include(b => b.Role).FirstOrDefault(u => u.Email == email);
-
-                if (user.Role.Name == "dev")
-                {
-                    return RedirectToAction("Account", "Development");
-                }
-
-                if (user.Role.Name == "manager")
-                {
-                    return RedirectToAction("Account", "Manager");
-                }
-
-                if (user.Role.Name == "admin")
-                {
-                    return RedirectToAction("Index", "Admin");
-                }
+              
+                return RedirectToAction("Account", Char.ToUpper(user.Role.Name[0]) + user.Role.Name.Substring(1));
             }
 
             return RedirectToAction("Reservation", "Home");
@@ -51,9 +38,9 @@ namespace TestCoWorking.Controllers
             return View();
         }
 
-        public IActionResult Reservation()
+        public async Task<IActionResult> Reservation()
         {
-            return View(db.Bookings.ToList());
+            return View(await db.Bookings.Where(b => b.Approved == true).ToArrayAsync());
         }
 
         public IActionResult Warwing()

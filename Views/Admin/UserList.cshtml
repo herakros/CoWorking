@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TestCoWorking.Models.User>
+﻿@model TestCoWorking.Models.User[]
 @{
     ViewData["Title"] = "Користувачів";
     Layout = "_AdminLayout";
@@ -11,8 +11,9 @@
 <table class="table">
     <tr>
         <th>ID</th>
-        <th>Nick Name</th>
-        <th>Email</th>
+        <th>Ім'я</th>
+        <th>Пошта</th>
+        <th>Роль</th>
         <th>&nbsp;</th>
         <th>&nbsp;</th>
     </tr>
@@ -22,6 +23,7 @@
             <td>@u.Id</td>
             <td>@u.NickName</td>
             <td>@u.Email</td>
+            <td>@u.Role.Name</td>
             <td><a asp-action="EditUser" asp-controller="Admin" asp-route-id="@u.Id">Редагувати</a></td>
             <td><a asp-action="DeleteUser" asp-controller="Admin" asp-route-id="@u.Id">Видалити</a></td>
         </tr>

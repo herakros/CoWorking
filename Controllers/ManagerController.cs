@@ -7,10 +7,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using TestCoWorking.Data;
 using TestCoWorking.Models;
+using TestCoWorking.ViewModels;
 
 namespace TestCoWorking.Controllers
 {
-    [Authorize(Roles = "manager")]
+    [Authorize(Roles = "Manager, Admin")]
     public class ManagerController : Controller
     {
         private ApplicationContext db;
@@ -25,109 +26,66 @@ namespace TestCoWorking.Controllers
         {
             if(id != null)
             {
-                var book = await db.Bookings.FirstOrDefaultAsync(b => b.Id == id);
+                var book = await db.Bookings.Include(c => c.Comments).FirstOrDefaultAsync(b => b.Id == id);              
 
                 if(book != null)
                 {
-                    return View(book);
+                    var booking = new LookBookingModel() { Booking = book };
+                    return View(booking);
                 }
             }
 
-            return NotFound();
+            return RedirectToAction("Account", "Manager");
         }
 
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> Follow(int? id)
         {
-            if(id != null)
+            var book = await db.Bookings.FirstOrDefaultAsync(b => b.Id == id);
+            var employee = new Employee() { Booking = book, BookingId = book.Id };
+
+            if(book != null)
             {
-                var book = await db.Bookings.FirstOrDefaultAsync(b => b.Id == id);
-                var user = await db.Users.FirstOrDefaultAsync(u => u.Email == User.Identity.Name);
-
-                if(CheckFollowed(user, book) && book.UserCount != 0)
-                {
-                    user.Booking = book;
-
-                    db.Users.Update(user);
-
-                    await db.SaveChangesAsync();
-
-                    book.UserCount--;
-
-                    await db.SaveChangesAsync();
-
-                    return RedirectToAction("Account", "Manager");
-                }
+                return View(employee);
             }
 
-            return RedirectToAction("Account", "Manager"); 
-        }
-
-        private bool CheckFollowed(User user, Booking booking)
-        {
-            return user.BookingId == booking.Id ? false : true;
-        }
-
-
-        [HttpGet]
-        public async Task<IActionResult> Comments(int? id)
-        {
-            if(id != null)
-            {
-                var book = await db.Bookings.Include(b => b.Comments).FirstOrDefaultAsync(b => b.Id == id);
-
-                if(book != null)
-                {
-                    return View(book);
-                }
-            }
-            return NotFound();
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> AddComment(int? id)
-        {
-            if (id != null)
-            {
-                var book = await db.Bookings.Include(b => b.Comments).FirstOrDefaultAsync(b => b.Id == id);
-
-                if (book != null)
-                {
-                    var comment = new Comment() { Booking = book };
-                    db.Comments.Add(comment);
-                    await db.SaveChangesAsync();
-
-                    return View(comment);
-                }
-            }
-            return NotFound();
+            return RedirectToAction("Account", "Manager");
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddComment(Comment comm)
-        {            
-            if(comm != null)
+        public async Task<IActionResult> Follow(Employee employee)
+        {
+            employee.Id = 0;
+            if(employee != null)
             {
-                var user = await db.Users.FirstOrDefaultAsync(u => u.Email == User.Identity.Name);
-                var comment = await db.Comments.FirstOrDefaultAsync(c => c.Id == comm.Id);
-
-                comment.UserName = user.NickName;
-                comment.Message = comm.Message;
-
-                db.Comments.Update(comment);
-
+                db.Employees.Add(employee);
                 await db.SaveChangesAsync();
-
-                return RedirectToAction("Account", "Manager");
             }
 
-            return NotFound();
+            return RedirectToAction("Look", "Manager", new { id = employee.BookingId }); 
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddComment(Comment comment)
+        {            
+            if(comment != null)
+            {
+                var user = await db.Users.FirstOrDefaultAsync(u => u.Email == User.Identity.Name);
+
+                comment.UserName = user.NickName;
+
+                db.Comments.Add(comment);
+
+                await db.SaveChangesAsync();
+            }
+
+            return RedirectToAction("Look", "Manager", new { id = comment.BookingId });
         }
 
         [HttpGet]
-        public IActionResult Account()
+        public async Task<IActionResult> Account()
         {
-            var booking = db.Bookings.ToList();
+            var booking = await db.Bookings.Where(b => b.Approved == true).ToArrayAsync();
             return View(booking);
         }
     }

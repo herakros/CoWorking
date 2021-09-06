@@ -16,6 +16,8 @@ namespace TestCoWorking.Data
         public DbSet<Booking> Bookings {get;set;}
 
         public DbSet<Comment> Comments { get; set; }
+
+        public DbSet<Employee> Employees { get; set; }
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
         : base(options)
         {
@@ -24,9 +26,9 @@ namespace TestCoWorking.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            string adminRoleName = "admin";
-            string devRoleName = "dev";
-            string managerRoleName = "manager";
+            string adminRoleName = "Admin";
+            string devRoleName = "Developer";
+            string managerRoleName = "Manager";
 
             string adminEmail = "Admin@gmail.com";
             string adminPassword = "12345";
@@ -42,6 +44,9 @@ namespace TestCoWorking.Data
 
             modelBuilder.Entity<Role>().HasData(new Role[] { adminRole, devRole, managerRole });
             modelBuilder.Entity<User>().HasData(new User[] { adminUser });
+
+            modelBuilder.Entity<Employee>().HasOne(b => b.Booking).WithMany(e => e.ReservedEmployeer).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Comment>().HasOne(b => b.Booking).WithMany(c => c.Comments).OnDelete(DeleteBehavior.Cascade);
 
             base.OnModelCreating(modelBuilder);
         }

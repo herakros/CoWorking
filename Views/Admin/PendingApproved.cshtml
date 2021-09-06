@@ -1,12 +1,13 @@
-﻿@model IEnumerable<TestCoWorking.Models.Booking>
+﻿@model TestCoWorking.Models.Booking[]
+
 @{
-    ViewData["Title"] = "Бронювання";
+    ViewData["Title"] = "PendingConfirm";
     Layout = "_AdminLayout";
 }
 
-<h1 class="text-center">Список бронювань</h1>
+<h1 class="text-center">Бронювання, що очікують на підтвердження</h1>
 
-<div class="container" >
+<div class="container">
     <table class="table">
         <tr>
             <th>ID</th>
@@ -25,11 +26,9 @@
                 <td>@u.DevEmail</td>
                 <td>@u.Start</td>
                 <td>@u.End</td>
-                <td><a asp-action="EditBooking" asp-controller="Admin" asp-route-id="@u.Id">Редагувати</a></td>
-                <td><a asp-action="DeleteBooking" asp-controller="Admin" asp-route-id="@u.Id">Видалити</a></td>
+                <td><a asp-action="ConfirmBook" asp-controller="Admin" asp-route-id="@u.Id">Затвердити</a></td>
             </tr>
         }
     </table>
 </div>
-
 

@@ -1,0 +1,59 @@
+﻿@model TestCoWorking.Models.Booking
+@{
+    ViewData["Title"] = "Акаунт";
+    Layout = "_DevLayout";
+}
+
+@if (Model != null)
+{
+    <h1 class="text-center">Ваше бронювання</h1>
+    <table class="table">
+        <tr>
+            <td><a asp-action="Edit" asp-controller="Developer" asp-route-id="@Model.Id" class="btn btn-outline-dark">Редагувати бронювання</a></td>
+        </tr>
+        @if (Model.EmployeerCount == 0)
+        {
+            <tr>
+                <td><h4>Більше немає доступних місць</h4></td>
+            </tr>
+        }
+        else
+        {
+            <tr>
+                <td><a asp-action="EmployeesWantToSignUp" asp-controller="Developer" asp-route-id="@Model.Id" class="btn btn-outline-dark">Користувачі, які хочуть записатись</a></td>
+            </tr>
+        }
+        <tr>
+            <td><a asp-action="FollowedUsers" asp-controller="Developer" asp-route-id="@Model.Id" class="btn btn-outline-dark">Підписані користувачі</a></td>
+        </tr>
+        <tr>
+            <td><a asp-action="Comments" asp-controller="Developer" asp-route-id="@Model.Id" class="btn btn-outline-dark">Коментарі</a></td>
+        </tr>
+    </table>
+    <table class="table">
+        <tr>
+            <th>Назва</th>
+            <th>Кількість вільних місць</th>
+            <th>Старт</th>
+            <th>Кінець</th>
+            <th>Статус</th>
+            <th>&nbsp;</th>
+        </tr>
+        <tr>
+            <td>@Model.Name</td>
+            <td>@Model.EmployeerCount</td>
+            <td>@Model.Start</td>
+            <td>@Model.End</td>
+            <td>@Model.Approved</td>
+            <td><a asp-action="Delete" asp-controller="Developer" asp-route-id="@Model.Id">Видалити</a></td>
+        </tr>
+    </table>
+}
+else
+{
+    <div class="text-center">
+        <h1>Немає наявних бронювань</h1>
+        <a asp-action="Add" asp-controller="Developer" class="btn btn-outline-dark">Додайте бронювання</a>
+    </div>
+}
+

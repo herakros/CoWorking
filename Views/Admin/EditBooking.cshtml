@@ -15,8 +15,8 @@
         <input type="text" asp-for="DevEmail" class="form-control" />
     </div>
     <div class="form-group">
-        <label asp-for="UserCount" class="control-label">Кількість місць</label>
-        <input type="number" asp-for="UserCount" class="form-control" />
+        <label asp-for="EmployeerCount" class="control-label">Кількість місць</label>
+        <input type="number" asp-for="EmployeerCount" class="form-control" />
     </div>
     <div class="form-group">
         <label asp-for="Start" class="control-label">Початок</label>
@@ -25,6 +25,9 @@
     <div class="form-group">
         <label asp-for="End" class="control-label">Кінець</label>
         <input type="date" asp-for="End" class="form-control" />
+    </div>
+    <div class="form-group">
+        <input type="hidden" asp-for="Approved" value="@Model.Approved"/>
     </div>
     <div class="form-group">
         <input type="submit" value="Зберегти" class="form-control" />

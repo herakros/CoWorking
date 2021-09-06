@@ -17,16 +17,20 @@ namespace TestCoWorking.Models
 
         public string DevEmail { get; set; }
 
-        public int UserCount { get; set; }
+        public string Description { get; set; }
+
+        public int EmployeerCount { get; set; }
+
+        public bool Approved { get; set; }
 
         public List<Comment> Comments { get; set; }
 
-        public List<User> ReservedUsers { get; set; }
+        public List<Employee> ReservedEmployeer{ get; set; }
 
         public Booking()
         {
             Comments = new List<Comment>();
-            ReservedUsers = new List<User>();
+            ReservedEmployeer = new List<Employee>();
         }
     }
 }

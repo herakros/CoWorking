@@ -1,0 +1,37 @@
+﻿@model List<TestCoWorking.Models.Employee>
+
+@{
+    ViewData["Title"] = "Користувачі";
+    Layout = "_DevLayout";
+}
+
+<h1 class="text-center">Підписані користувачі</h1>
+
+<table class="text-center table">
+    <tr>
+        <th>Ім'я</th>
+        <th>Пошта</th>
+        <th>Опис</th>
+        <th>&nbsp;</th>
+        <th>&nbsp;</th>
+    </tr>
+    @foreach (var u in Model)
+    {
+        <tr>
+            <td>@u.FullName</td>
+            <td>@u.Email</td>
+            <td>@u.Description</td>
+            <td>
+                <form asp-action="ConfirmEmployeer" asp-controller="Developer" asp-route-id="@u.Id">
+                    <input type="submit" value="Додати" class="form-control" />
+                </form>
+            </td>
+            <td>
+                <form asp-action="DeleteEmployeer" asp-controller="Developer" asp-route-id="@u.Id">
+                    <input type="submit" value="Видалити" class="form-control" />
+                </form>
+            </td>
+        </tr>        
+    }
+</table>
+

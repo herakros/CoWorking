@@ -6,12 +6,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TestCoWorking.Data;
-using TestCoWorking.Instruments;
 using TestCoWorking.Models;
+using TestCoWorking.VIewModels;
 
 namespace TestCoWorking.Controllers
 {
-    [Authorize(Roles = "admin")]
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         private ApplicationContext db;
@@ -21,21 +21,21 @@ namespace TestCoWorking.Controllers
             db = context;
         }
 
-        public IActionResult Index()
+        public IActionResult Account()
         {
             return View();
         }
 
         [HttpGet]
-        public async Task<IActionResult> BookingList()
+        public async Task<IActionResult> ApprovedBooking()
         {
-            return View(await db.Bookings.ToListAsync());
+            return View(await db.Bookings.Where(b => b.Approved == true).ToArrayAsync());
         }
 
         [HttpGet]
         public async Task<IActionResult> UserList()
         {
-            return View(await db.Users.ToListAsync());
+            return View(await db.Users.Include(r => r.Role).ToArrayAsync());
         }
 
         [HttpGet]
@@ -50,6 +50,7 @@ namespace TestCoWorking.Controllers
                     return View(user);
                 }
             }
+
             return NotFound();
         }
         [HttpPost]
@@ -73,6 +74,7 @@ namespace TestCoWorking.Controllers
                     return View(user);
                 }
             }
+
             return NotFound();
         }
 
@@ -113,7 +115,7 @@ namespace TestCoWorking.Controllers
                 db.Bookings.Update(book);
                 await db.SaveChangesAsync();
 
-                return RedirectToAction("BookingList", "Admin");
+                return RedirectToAction("ApprovedBooking", "Admin");
             }
 
             return NotFound();
@@ -140,11 +142,56 @@ namespace TestCoWorking.Controllers
         {
             if(booking != null)
             {
-                await CRUD.DeleteBook(booking, db);
-                return RedirectToAction("BookingList", "Admin");
+                var book = await db.Bookings.Include(e => e.ReservedEmployeer).Include(c => c.Comments).FirstOrDefaultAsync(b => b.Id == booking.Id);
+
+                db.Bookings.Remove(book);
+
+                await db.SaveChangesAsync();
+
+                return RedirectToAction("ApprovedBooking", "Admin");
             }
 
             return NotFound();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> PendingApproved()
+        {
+            return View(await db.Bookings.Where(b => b.Approved == false).ToArrayAsync());
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ConfirmBook(int? id)
+        {
+            if(id != null)
+            {
+                var booking = await db.Bookings.FirstOrDefaultAsync(b => b.Id == id);
+
+                if(booking != null)
+                {
+                    return View(booking);
+                }
+            }
+
+            ModelState.AddModelError("", "Виникла помилка");
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ConfrimBooking(Booking book)
+        {
+            if(book != null)
+            {
+                book.Approved = true;
+                db.Bookings.Update(book);
+
+                await db.SaveChangesAsync();
+
+                return RedirectToAction("PendingApproved", "Admin");
+            }
+
+            return RedirectToAction("Account", "Admin");
         }
     }
 }

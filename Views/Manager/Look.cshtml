@@ -1,17 +1,67 @@
-﻿@model TestCoWorking.Models.Booking
+﻿@model TestCoWorking.ViewModels.LookBookingModel
 @{
     ViewData["Title"] = "Бронювання";
     Layout = "_ManagerLayout";
 }
 
-<h1 class="text-center">Бронювання - @Model.Name</h1>
+<h2 class="text-center">Бронювання - @Model.Booking.Name</h2>
 
-<form asp-action="Follow" asp-controller="Manager" asp-route-id="@Model.Id">
-    <div class="form-group">
-        <label asp-for="UserCount" class="control-label">Кількість місць - @Model.UserCount</label>
-    </div>
-    <div class="form-group">
-        <input type="submit" value="Записатись" class="form-control" />
+<div class="text-center">
+    <table class="table">
+        <tr>
+            <th>Ім'я</th>
+            <th>Пошта розробника</th>
+            <th>Кількість вільних місць</th>
+            <th>Початок</th>
+            <th>Кінець</th>
+        </tr>
+        <tr>
+            <td>@Model.Booking.Name</td>
+            <td>@Model.Booking.DevEmail</td>
+            <td>@Model.Booking.EmployeerCount</td>
+            <td>@Model.Booking.Start</td>
+            <td>@Model.Booking.End</td>
+        </tr>
+    </table>
+</div>
+<div class="table">
+    <h4 class="text-center">Опис</h4><br />
+    <label>@Model.Booking.Description</label>
+</div>
+
+@if(Model.Booking.EmployeerCount == 0)
+{ 
+    <h4 class="text-center">Немає вільних місць</h4>
+}
+else
+{
+    <h4 class="text-center">
+        <a asp-action="Follow" asp-controller="Manager" asp-route-id="@Model.Booking.Id" class="btn btn-outline-dark">Записати користувача</a>
+    </h4>
+}
+
+<h2>Коментарі</h2>
+<div class="text-center form-group">
+    <table class="table">
+        <tr>
+            <th>Ім'я</th>
+            <th>Повідомлення</th>
+        </tr>
+            @foreach (var comment in Model.Booking.Comments)
+            {
+                <tr>
+                    <td>@comment.UserName</td>
+                    <td>@comment.Message</td>
+                </tr>
+            }
+    </table>
+</div>
+<form asp-action="AddComment" asp-controller="Manager" class="form-group">
+    <div>
+        <label asp-for="@Model.Comment.Message">Ваш коментар</label>
+        <textarea type="text" asp-for="@Model.Comment.Message" class="form-control"></textarea>
+        <input asp-for="@Model.Comment.BookingId" value="@Model.Booking.Id" type="hidden"/>
+        <input type="submit" value="Додати" class="form-control" />
     </div>
 </form>
 
