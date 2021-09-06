@@ -4,6 +4,19 @@
     Layout = "_ManagerLayout";
 }
 
+@* test *@
+<style> 
+    div.scroll { 
+        margin: 4px, 4px;
+        padding: 4px;
+        background-color: white;
+        height: 200px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        text-align: justify;
+    }
+</style>
+
 <h2 class="text-center">Бронювання - @Model.Booking.Name</h2>
 
 <div class="text-center">
@@ -41,7 +54,7 @@ else
 }
 
 <h2>Коментарі</h2>
-<div class="text-center form-group">
+<div class="scroll text-center form-group">
     <table class="table">
         <tr>
             <th>Ім'я</th>
