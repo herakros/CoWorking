@@ -66,20 +66,20 @@ namespace TestCoWorking.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddComment(Comment comment)
+        public async Task<IActionResult> AddComment(LookBookingModel model)
         {            
-            if(comment != null)
+            if(model.Text != null)
             {
                 var user = await db.Users.FirstOrDefaultAsync(u => u.Email == User.Identity.Name);
 
-                comment.UserName = user.NickName;
+                var comment = new Comment() { UserName = user.NickName, BookingId = model.BookingId, Message = model.Text };
 
                 db.Comments.Add(comment);
 
                 await db.SaveChangesAsync();
             }
 
-            return RedirectToAction("Look", "Manager", new { id = comment.BookingId });
+            return RedirectToAction("Look", "Manager", new { id = model.BookingId });
         }
 
         [HttpGet]
