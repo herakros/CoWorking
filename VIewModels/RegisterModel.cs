@@ -9,6 +9,7 @@ namespace TestCoWorking.VIewModels
     public class RegisterModel
     {
         [Required(ErrorMessage = "Не вказана пошта")]
+        [RegularExpression(".+\\@.+\\..+", ErrorMessage = "Введіть правильний формат пошти")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Не вказаний нік")]

@@ -3,39 +3,34 @@
     ViewData["Title"] = "Register";
 }
 
-<h1>Зареєструватись</h1>
+<h1 class="text-center">Зареєструватись</h1>
 
-<form asp-action="Register" asp-controller="Account" asp-anti-forgery="true">
+<form asp-action="Register" asp-controller="Account" asp-anti-forgery="true" method="post" class="form-group">
     <div class="validation" asp-validation-summary="All"></div>
-    <div>
-        <div>
-            <label asp-for="Email">Введіть пошту</label><br />
-            <input type="text" asp-for="Email" />
-            <span asp-validation-for="Email" />
-        </div>
-        <div>
-            <label asp-for="NickName">Введіть ім'я</label><br />
-            <input type="text" asp-for="NickName" />
-        </div>
-        <div>
-            <label asp-for="Password">Введіть пароль</label><br />
-            <input type="text" asp-for="Password" />
-            <span asp-validation-for="Password" />
-        </div>
-        <div>
-            <label asp-for="ConfirmPassword">Підтвердіть пароль</label><br />
-            <input type="text" asp-for="ConfirmPassword" />
-            <span asp-validation-for="ConfirmPassword" />
-        </div>
-        <div><br />
-            <label asp-for="Role">Виберіть вашу роль</label>
-            <select asp-for="Role">
-                <option value="Developer">Розробник</option>
-                <option value="Manager">Менеджер</option>
-            </select>
-        </div><br />
-        <div>
-            <input type="submit" value="Зареєструватись" class="btn btn-outline-dark"/>
-        </div>
+    <div class="form-group">
+        <label asp-for="Email" class="control-label">Введіть пошту</label><br />
+        <input type="text" asp-for="Email" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label asp-for="NickName" class="control-label">Введіть ім'я</label><br />
+        <input type="text" asp-for="NickName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Password" class="control-label">Введіть пароль</label><br />
+        <input type="password" asp-for="Password" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label asp-for="ConfirmPassword" class="control-label">Підтвердіть пароль</label><br />
+        <input type="password" asp-for="ConfirmPassword" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label asp-for="Role" class="control-label">Виберіть вашу роль</label>
+        <select asp-for="Role" class="custom-select">
+            <option value="Developer">Розробник</option>
+            <option value="Manager">Менеджер</option>
+        </select>
+    </div>
+    <div class="form-group text-center">
+        <input type="submit" value="Зареєструватись" class="btn btn-outline-dark text-center"/>
     </div>
 </form>

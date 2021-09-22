@@ -32,14 +32,21 @@ namespace TestCoWorking.Controllers
         {
             if(ModelState.IsValid)
             {
-                if (model.Role == "admin")
+                if (model.Role == "Admin")
                 {
                     return RedirectToAction("Warning", "Home");
+                }
+
+                if (model.Password != model.ConfirmPassword)
+                {
+                    ModelState.AddModelError("", "Пароль не співпадає");
+                    return View(model);
                 }
 
                 User user = await db.Users.FirstOrDefaultAsync(u => u.Email == model.Email 
                 && u.Password == model.Password 
                 && u.NickName == model.NickName);
+
 
                 if(user == null)
                 {
@@ -60,11 +67,14 @@ namespace TestCoWorking.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Неправильно введена дані або такий користувач уже існує");
+                    ModelState.AddModelError("", "Неправильно введена дані або такий користувач уже існує.");
+                    return View(model);
                 }
             }
-
-            return View(model);
+            else
+            {
+                return View();
+            }
         }
 
         [HttpGet]
@@ -74,7 +84,6 @@ namespace TestCoWorking.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginModel model)
         {
             if(ModelState.IsValid)
@@ -85,14 +94,18 @@ namespace TestCoWorking.Controllers
                 if (user != null)
                 {
                     await Authenticate(user);
-
                     return RedirectToAction("Account", Char.ToUpper(user.Role.Name[0]) + user.Role.Name.Substring(1));
                 }
-
-                ModelState.AddModelError("", "Неправильно введена пошта і(або) пароль");
+                else
+                {
+                    ModelState.AddModelError("", "Неправильно введена дані або такого користувача не існує.");
+                    return View(model);
+                }
             }
-
-            return View(model);
+            else
+            {
+                return View();
+            }
         }
 
         public async Task<IActionResult> Logout()
