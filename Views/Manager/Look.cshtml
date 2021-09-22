@@ -30,7 +30,6 @@
         <tr>
             <td>@Model.Booking.Name</td>
             <td>@Model.Booking.DevEmail</td>
-            <td>@Model.Booking.EmployeerCount</td>
             <td>@Model.Booking.Start</td>
             <td>@Model.Booking.End</td>
         </tr>
@@ -40,17 +39,6 @@
     <h4 class="text-center">Опис</h4><br />
     <label>@Model.Booking.Description</label>
 </div>
-
-@if(Model.Booking.EmployeerCount == 0)
-{ 
-    <h4 class="text-center">Немає вільних місць</h4>
-}
-else
-{
-    <h4 class="text-center">
-        <a asp-action="Follow" asp-controller="Manager" asp-route-id="@Model.Booking.Id" class="btn btn-outline-dark">Записати користувача</a>
-    </h4>
-}
 
 <h2>Коментарі</h2>
 <div class="scroll text-center form-group">

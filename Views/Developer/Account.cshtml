@@ -11,18 +11,6 @@
         <tr>
             <td><a asp-action="Edit" asp-controller="Developer" asp-route-id="@Model.Id" class="btn btn-outline-dark">Редагувати бронювання</a></td>
         </tr>
-        @if (Model.EmployeerCount == 0)
-        {
-            <tr>
-                <td><h4>Більше немає доступних місць</h4></td>
-            </tr>
-        }
-        else
-        {
-            <tr>
-                <td><a asp-action="EmployeesWantToSignUp" asp-controller="Developer" asp-route-id="@Model.Id" class="btn btn-outline-dark">Користувачі, які хочуть записатись</a></td>
-            </tr>
-        }
         <tr>
             <td><a asp-action="FollowedUsers" asp-controller="Developer" asp-route-id="@Model.Id" class="btn btn-outline-dark">Підписані користувачі</a></td>
         </tr>
@@ -41,7 +29,6 @@
         </tr>
         <tr>
             <td>@Model.Name</td>
-            <td>@Model.EmployeerCount</td>
             <td>@Model.Start</td>
             <td>@Model.End</td>
             <td>@Model.Approved</td>

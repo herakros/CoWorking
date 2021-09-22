@@ -6,6 +6,7 @@
     <title>@ViewData["Title"] - Admin Panel</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/ValidationStyle.css" />
 </head>
 <body>
     <header>
@@ -19,16 +20,19 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="UserList">Users</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Account">Головна</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="ApprovedBooking">Approval Booking</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="UserList">Користувачі</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="PendingApproved">Pending Approval</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="ApprovedBooking">Підтверджені бронювання</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="PendingApproved">Очікують підтвердження</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Вийти</a>
                         </li>
                     </ul>
                 </div>

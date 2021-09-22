@@ -11,13 +11,14 @@ namespace TestCoWorking.Data
     {
         public DbSet<User> Users { get; set; }
 
+        public DbSet<Place> Place { get; set; } 
+
         public DbSet<Role> Roles { get; set; }
 
         public DbSet<Booking> Bookings {get;set;}
 
         public DbSet<Comment> Comments { get; set; }
 
-        public DbSet<Employee> Employees { get; set; }
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
         : base(options)
         {
@@ -45,7 +46,6 @@ namespace TestCoWorking.Data
             modelBuilder.Entity<Role>().HasData(new Role[] { adminRole, devRole, managerRole });
             modelBuilder.Entity<User>().HasData(new User[] { adminUser });
 
-            modelBuilder.Entity<Employee>().HasOne(b => b.Booking).WithMany(e => e.ReservedEmployeer).OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Comment>().HasOne(b => b.Booking).WithMany(c => c.Comments).OnDelete(DeleteBehavior.Cascade);
 
             base.OnModelCreating(modelBuilder);

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TestCoWorking.Data;
 using TestCoWorking.Models;
+using TestCoWorking.ViewModels;
 using TestCoWorking.VIewModels;
 
 namespace TestCoWorking.Controllers
@@ -21,8 +22,44 @@ namespace TestCoWorking.Controllers
             db = context;
         }
 
-        public IActionResult Account()
+        [HttpGet]
+        public async Task<IActionResult> Account()
         {
+            var homeModel = new AdminHomeModel();
+
+            var place = await db.Place.FirstOrDefaultAsync();
+            var users = await db.Users.CountAsync();
+            var books = await db.Bookings.ToArrayAsync();
+
+            homeModel.PlaceCount = place.Count;
+            homeModel.UsersCount = users;
+            homeModel.ApprovedBookingCount = books.Where(b => b.Approved == true).Count();
+            homeModel.PendingApporvedCount = books.Where(b => b.Approved != true).Count();
+
+            return View(homeModel);
+        }
+
+        [HttpGet]
+        public IActionResult AddSeas()
+        {
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddSeas(PlaceModel model)
+        {
+            if(ModelState.IsValid)
+            {
+                var place = await db.Place.FirstOrDefaultAsync();
+                place.Count = (int)model.Count;
+
+                db.Place.Update(place);
+                await db.SaveChangesAsync();
+
+                return RedirectToAction("Account");
+            }
+
             return View();
         }
 
@@ -142,7 +179,7 @@ namespace TestCoWorking.Controllers
         {
             if(booking != null)
             {
-                var book = await db.Bookings.Include(e => e.ReservedEmployeer).Include(c => c.Comments).FirstOrDefaultAsync(b => b.Id == booking.Id);
+                var book = await db.Bookings.Include(c => c.Comments).FirstOrDefaultAsync(b => b.Id == booking.Id);
 
                 db.Bookings.Remove(book);
 

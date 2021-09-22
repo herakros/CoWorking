@@ -1,8 +1,30 @@
-﻿
+﻿@model TestCoWorking.ViewModels.AdminHomeModel
 @{
-    ViewData["Title"] = "Account";
+    ViewData["Title"] = "Акаунт";
     Layout = "_AdminLayout";
 }
 
-<h1 class="text-center">Привіт Адмін!</h1>
+
+<h1 class="text-center">Редагування кількості робочих місць</h1>
+
+<div class="form-group">
+    <div class="form-group">
+        <h4 class="control-label">Кількість робочих місць - @Model.PlaceCount</h4>
+        <a asp-action="AddSeas" asp-controller="Admin" class="btn btn-outline-dark">Змінити кількість місць</a>
+    </div>
+    <div class="form-group">
+        <h4 class="control-label">Кількість заброньованих місць - @Model.ApprovedBookingCount</h4>
+        <a class="btn btn-outline-dark" asp-controller="Admin" asp-action="ApprovedBooking">Переглянути бронювання</a>
+    </div>
+    <div class="form-group">
+        <h4 class="control-label">Кількість очікуючих підтвердження - @Model.PendingApporvedCount</h4>
+        <a class="btn btn-outline-dark" asp-controller="Admin" asp-action="PendingApproved">Підтвердити бронювання</a>
+    </div>
+    <div class="form-group">
+        <h4 class="control-label">Кількість користувачів - @Model.UsersCount</h4>
+        <a class="btn btn-outline-dark" asp-controller="Admin" asp-action="UserList">Переглянути користувачів</a>
+    </div>
+</div>
+
+
 

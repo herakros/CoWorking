@@ -42,7 +42,7 @@ namespace TestCoWorking.Controllers
         public async Task<IActionResult> Follow(int? id)
         {
             var book = await db.Bookings.FirstOrDefaultAsync(b => b.Id == id);
-            var employee = new Employee() { Booking = book, BookingId = book.Id };
+            var employee = new User() { Booking = book, BookingId = book.Id };
 
             if(book != null)
             {
@@ -53,12 +53,12 @@ namespace TestCoWorking.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Follow(Employee employee)
+        public async Task<IActionResult> Follow(User employee)
         {
             employee.Id = 0;
             if(employee != null)
             {
-                db.Employees.Add(employee);
+                db.Users.Add(employee);
                 await db.SaveChangesAsync();
             }
 

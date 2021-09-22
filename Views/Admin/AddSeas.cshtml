@@ -1,0 +1,20 @@
+﻿@model TestCoWorking.ViewModels.PlaceModel
+@{
+    ViewData["Title"] = "Додавання місць";
+    Layout = "_AdminLayout";
+}
+
+<div class="form-group">
+    <h4 class="text-center">Додайте кількість робочих місць</h4>
+    <form asp-action="AddSeas" asp-controller="Admin" asp-antiforgery="true" method="post" class="form-group">
+        <div class="form-group" asp-validation-summary="All"></div>
+        <div class="form-group">
+            <label class="control-label" asp-for="Count" /><br />
+            <input type="number" class="form-control" asp-for="Count" />
+        </div>
+        <div class="form-group">
+            <input type="submit" class="btn btn-outline-dark" value="Додати" />
+        </div>
+    </form>
+</div>
+
