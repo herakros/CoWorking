@@ -15,15 +15,13 @@ namespace TestCoWorking.Models
 
         public DateTime End { get; set; }
 
-        public string DevEmail { get; set; }
-
         public string Description { get; set; }
 
         public bool Approved { get; set; }
 
-        public Place Place { get; set; }
+        public User User { get; set; }
 
-        public int? PlaceId { get; set; }
+        public int? UserId { get; set; }
 
         public List<Comment> Comments { get; set; }
 
