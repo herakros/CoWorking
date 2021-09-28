@@ -24,8 +24,8 @@
             <td>@u.NickName</td>
             <td>@u.Email</td>
             <td>@u.Role.Name</td>
-            <td><a asp-action="EditUser" asp-controller="Admin" asp-route-id="@u.Id">Редагувати</a></td>
-            <td><a asp-action="DeleteUser" asp-controller="Admin" asp-route-id="@u.Id">Видалити</a></td>
+            <td><a asp-action="EditUser" asp-controller="Admin" asp-route-id="@u.Id" class="btn btn-success">Редагувати</a></td>
+            <td><a asp-action="DeleteUser" asp-controller="Admin" asp-route-id="@u.Id" class="btn btn-danger">Видалити</a></td>
         </tr>
     }
 </table>

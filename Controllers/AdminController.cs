@@ -27,11 +27,11 @@ namespace TestCoWorking.Controllers
         {
             var homeModel = new AdminHomeModel();
 
-            var place = await db.Place.FirstOrDefaultAsync();
+            var place = await db.Place.FirstOrDefaultAsync(p => p.Id == 1);
             var users = await db.Users.CountAsync();
             var books = await db.Bookings.ToArrayAsync();
 
-            homeModel.PlaceCount = place.Count;
+            homeModel.PlaceCount = (int)place.Count;
             homeModel.UsersCount = users;
             homeModel.ApprovedBookingCount = books.Where(b => b.Approved == true).Count();
             homeModel.PendingApporvedCount = books.Where(b => b.Approved != true).Count();

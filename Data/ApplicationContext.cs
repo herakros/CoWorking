@@ -43,8 +43,11 @@ namespace TestCoWorking.Data
             // Creating basic admin
             User adminUser = new User() { Id = 1, Email = adminEmail, Password = adminPassword, NickName = adminNickName, RoleId = 1 };
 
+            Place place = new Place() { Id = 1, Count = 0 };
+
             modelBuilder.Entity<Role>().HasData(new Role[] { adminRole, devRole, managerRole });
             modelBuilder.Entity<User>().HasData(new User[] { adminUser });
+            modelBuilder.Entity<Place>().HasData(new Place[] { place });
 
             modelBuilder.Entity<Comment>().HasOne(b => b.Booking).WithMany(c => c.Comments).OnDelete(DeleteBehavior.Cascade);
 
