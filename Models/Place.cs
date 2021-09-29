@@ -10,5 +10,12 @@ namespace TestCoWorking.Models
         public int Id { get; set; }
 
         public int? Count { get; set; }
+
+        public List<Booking> Bookings { get; set; }
+
+        public Place()
+        {
+            Bookings = new List<Booking>();
+        }
     }
 }
