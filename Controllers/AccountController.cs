@@ -104,7 +104,7 @@ namespace TestCoWorking.Controllers
             }
             else
             {
-                return View();
+                return View(model);
             }
         }
 

@@ -1,10 +1,14 @@
-﻿@model TestCoWorking.Models.User
+﻿@model TestCoWorking.ViewModels.EditUserModel
 @{
     ViewData["Title"] = "Редагувати користувача";
     Layout = "_AdminLayout";
 }
 
-<form asp-action="EditUser" asp-controller="Admin" asp-route-id="@Model.Id">
+<form asp-action="EditUser" asp-controller="Admin" asp-route-id="@Model.Id" method="post" asp-anti-forgery="true" class="form-group">
+    <div asp-validation-summary="All" class="validation"></div>
+    <div>
+        <input type="hidden" asp-for="Id"/>
+    </div>
     <div class="form-group">
         <label asp-for="NickName" class="control-label">Ім'я</label>
         <input type="text" asp-for="NickName" class="form-control" />
@@ -14,8 +18,12 @@
         <input type="text" asp-for="Email" class="form-control" />
     </div>
     <div class="form-group">
-        <label asp-for="Role.Name" class="control-label">Роль</label><br />
-        <input type="text" asp-for="Role.Name" class="form-control" />
+        <label asp-for="Role" class="control-label">Роль</label><br />
+        <select asp-for="Role" class="custom-select">
+            <option value="Developer">Розробник</option>
+            <option value="Manager">Менеджер</option>
+            <option value="Admin">Адмін</option>
+        </select>
     </div>
     <div class="form-group">
         <input type="submit" value="Зберегти" class="form-control btn-success" />

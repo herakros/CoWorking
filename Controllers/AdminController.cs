@@ -78,6 +78,8 @@ namespace TestCoWorking.Controllers
             return View(await db.Bookings.Where(b => b.Approved == true).ToArrayAsync());
         }
 
+        #region Edit Users
+
         [HttpGet]
         public async Task<IActionResult> UserList()
         {
@@ -87,25 +89,49 @@ namespace TestCoWorking.Controllers
         [HttpGet]
         public async Task<IActionResult> EditUser(int? id)
         {
-            if(id != null)
+            if (id != null)
             {
-                var user = await db.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Id == id);
-
-                if(user != null)
+                User user = await db.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Id == id);
+                EditUserModel editUserModel = new EditUserModel()
                 {
-                    return View(user);
+                    Id = user.Id,
+                    Email = user.Email,
+                    NickName = user.NickName,
+                    Role = user.Role.Name
+                };
+
+                if (user != null)
+                {
+                    return View(editUserModel);
                 }
             }
 
             return NotFound();
         }
         [HttpPost]
-        public async Task<IActionResult> EditUser(User user)
+        public async Task<IActionResult> EditUser(EditUserModel model)
         {
-            db.Users.Update(user);
-            await db.SaveChangesAsync();
+            if (ModelState.IsValid)
+            {
+                User user = await db.Users.FirstOrDefaultAsync(u => u.Id == model.Id);
 
-            return RedirectToAction("UserList", "Admin");
+                if (user != null)
+                {
+                    user.NickName = model.NickName;
+                    user.Email = model.Email;
+
+                    Role role = await db.Roles.FirstOrDefaultAsync(r => r.Name == model.Role);
+
+                    user.Role = role;
+
+                    db.Users.Update(user);
+                    await db.SaveChangesAsync();
+                }
+
+                return RedirectToAction("UserList", "Admin");
+            }
+
+            return View(model);
         }
 
         [HttpGet]
@@ -127,7 +153,7 @@ namespace TestCoWorking.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteUser(User user)
         {
-            if(user != null)
+            if (user != null)
             {
                 db.Entry(user).State = EntityState.Deleted;
                 await db.SaveChangesAsync();
@@ -140,11 +166,11 @@ namespace TestCoWorking.Controllers
         [HttpGet]
         public async Task<IActionResult> EditBooking(int? id)
         {
-            if(id != null)
+            if (id != null)
             {
                 var book = await db.Bookings.FirstOrDefaultAsync(b => b.Id == id);
 
-                if(book != null)
+                if (book != null)
                 {
                     return View(book);
                 }
@@ -152,6 +178,9 @@ namespace TestCoWorking.Controllers
 
             return NotFound();
         }
+
+        #endregion
+
 
         [HttpPost]
         public async Task<IActionResult> EditBooking(Booking book)

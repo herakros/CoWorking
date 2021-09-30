@@ -25,7 +25,14 @@
             <td>@u.Email</td>
             <td>@u.Role.Name</td>
             <td><a asp-action="EditUser" asp-controller="Admin" asp-route-id="@u.Id" class="btn btn-success">Редагувати</a></td>
-            <td><a asp-action="DeleteUser" asp-controller="Admin" asp-route-id="@u.Id" class="btn btn-danger">Видалити</a></td>
+            @if(u.Role.Name != "Admin")
+            {
+                <td><a asp-action="DeleteUser" asp-controller="Admin" asp-route-id="@u.Id" class="btn btn-danger">Видалити</a></td>
+            }
+            else
+            {
+                <td></td>
+            }
         </tr>
     }
 </table>
