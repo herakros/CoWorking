@@ -22,7 +22,8 @@ namespace TestCoWorking.Controllers
         [HttpGet]
         public async Task<IActionResult> Account()
         {
-            return View();
+            var book = await db.Bookings.FirstOrDefaultAsync(b => b.DevEmail == User.Identity.Name);
+            return View(book);
         }
 
         [HttpGet]
@@ -36,6 +37,7 @@ namespace TestCoWorking.Controllers
         {
             if(booking != null)
             {
+                booking.DevEmail = User.Identity.Name;
                 db.Bookings.Add(booking);
 
                 await db.SaveChangesAsync();
@@ -108,6 +110,8 @@ namespace TestCoWorking.Controllers
         [HttpGet]
         public async Task<IActionResult> FollowedUsers()
         {
+            var book =  await db.Bookings.FirstOrDefaultAsync(b => b.DevEmail == User.Identity.Name);
+
             return RedirectToAction("Account", "Developer");
         }
 
@@ -118,6 +122,8 @@ namespace TestCoWorking.Controllers
             {
                 var employeer = await db.Users.FirstOrDefaultAsync(e => e.Id == id);
 
+                var book = await db.Bookings.FirstOrDefaultAsync(b => b.Id == employeer.BookingId);
+
                 await db.SaveChangesAsync();
             }
 
@@ -127,6 +133,13 @@ namespace TestCoWorking.Controllers
         [HttpGet]
         public async Task<IActionResult> Comments()
         {
+            var book = await db.Bookings.Include(b => b.Comments).FirstOrDefaultAsync(b => b.DevEmail == User.Identity.Name);
+
+            if (book != null)
+            {              
+                return View(book.Comments);
+            }
+
             return RedirectToAction("Account", "Developer");
         }
 
@@ -147,6 +160,7 @@ namespace TestCoWorking.Controllers
             if(id != null)
             {
                 var employeer = await db.Users.FirstOrDefaultAsync(e => e.Id == id);
+                var book = await db.Bookings.FirstOrDefaultAsync(b => b.Id == employeer.BookingId);
 
                 db.Users.Remove(employeer);
 

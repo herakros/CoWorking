@@ -34,6 +34,11 @@
         <input asp-for="End" value="@Model.End" type="hidden" />
     </div>
     <div class="container">
+        <h4>Пошта розробника</h4>
+        <label asp-for="DevEmail">@Model.DevEmail</label>
+        <input asp-for="DevEmail" value="@Model.DevEmail" type="hidden" />
+    </div>
+    <div class="container">
         <input type="submit" value="Затвердити" class="form-control" />
     </div>
 </form>

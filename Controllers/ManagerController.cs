@@ -42,10 +42,11 @@ namespace TestCoWorking.Controllers
         public async Task<IActionResult> Follow(int? id)
         {
             var book = await db.Bookings.FirstOrDefaultAsync(b => b.Id == id);
+            var employee = new User() { Booking = book, BookingId = book.Id };
 
             if(book != null)
             {
-                return View();
+                return View(employee);
             }
 
             return RedirectToAction("Account", "Manager");
@@ -61,7 +62,7 @@ namespace TestCoWorking.Controllers
                 await db.SaveChangesAsync();
             }
 
-            return RedirectToAction("Look", "Manager"); 
+            return RedirectToAction("Look", "Manager", new { id = employee.BookingId }); 
         }
 
         [HttpPost]
