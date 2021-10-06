@@ -19,17 +19,18 @@ namespace TestCoWorking.Models
 
         public string Description { get; set; }
 
+        public int EmployeerCount { get; set; }
+
         public bool Approved { get; set; }
 
-        public Place Place { get; set; }
-
-        public int? PlaceId { get; set; }
-
         public List<Comment> Comments { get; set; }
+
+        public List<Employee> ReservedEmployeer{ get; set; }
 
         public Booking()
         {
             Comments = new List<Comment>();
+            ReservedEmployeer = new List<Employee>();
         }
     }
 }

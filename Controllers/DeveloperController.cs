@@ -93,7 +93,7 @@ namespace TestCoWorking.Controllers
         {
             if(booking != null)
             {
-                var book = await db.Bookings.Include(c => c.Comments).FirstOrDefaultAsync(b => b.Id == booking.Id);
+                var book = await db.Bookings.Include(e => e.ReservedEmployeer).Include(c => c.Comments).FirstOrDefaultAsync(b => b.Id == booking.Id);
 
                 db.Bookings.Remove(book);
 
@@ -110,7 +110,14 @@ namespace TestCoWorking.Controllers
         [HttpGet]
         public async Task<IActionResult> FollowedUsers()
         {
-            var book =  await db.Bookings.FirstOrDefaultAsync(b => b.DevEmail == User.Identity.Name);
+            var book =  await db.Bookings
+                .Include(b => b.ReservedEmployeer)
+                .FirstOrDefaultAsync(b => b.DevEmail == User.Identity.Name);
+
+            if (book != null)
+            {             
+                return View(book.ReservedEmployeer.Where(e => e.Appoved == true).ToList());
+            }
 
             return RedirectToAction("Account", "Developer");
         }
@@ -120,11 +127,22 @@ namespace TestCoWorking.Controllers
         {
             if(id != null)
             {
-                var employeer = await db.Users.FirstOrDefaultAsync(e => e.Id == id);
+                var employeer = await db.Employees.FirstOrDefaultAsync(e => e.Id == id);
+                employeer.Appoved = true;
 
                 var book = await db.Bookings.FirstOrDefaultAsync(b => b.Id == employeer.BookingId);
+                book.EmployeerCount--;
 
                 await db.SaveChangesAsync();
+
+                if(book.EmployeerCount == 0)
+                {
+                    return RedirectToAction("Account", "Developer");
+                }
+                else
+                {
+                    return RedirectToAction("EmployeesWantToSignUp", "Developer", new { id = book.Id });
+                }
             }
 
             return RedirectToAction("Account", "Developer");
@@ -148,7 +166,9 @@ namespace TestCoWorking.Controllers
         {
             if(id != null)
             {
-               
+                var book = await db.Bookings.Include(e => e.ReservedEmployeer).FirstOrDefaultAsync();
+
+                return View(book.ReservedEmployeer.Where(e => e.Appoved == false).ToList());
             }
 
             return RedirectToAction("Account", "Developer");
@@ -159,11 +179,15 @@ namespace TestCoWorking.Controllers
         {
             if(id != null)
             {
-                var employeer = await db.Users.FirstOrDefaultAsync(e => e.Id == id);
+                var employeer = await db.Employees.FirstOrDefaultAsync(e => e.Id == id);
                 var book = await db.Bookings.FirstOrDefaultAsync(b => b.Id == employeer.BookingId);
 
-                db.Users.Remove(employeer);
+                db.Employees.Remove(employeer);
 
+                if(employeer.Appoved == true)
+                {
+                    book.EmployeerCount++;
+                }
 
                 await db.SaveChangesAsync();
             }

@@ -1,4 +1,4 @@
-﻿@model List<TestCoWorking.Models.User>
+﻿@model List<TestCoWorking.Models.Employee>
 
 @{
     ViewData["Title"] = "Користувачі";
@@ -18,7 +18,9 @@
     @foreach (var u in Model)
     {
         <tr>
+            <td>@u.FullName</td>
             <td>@u.Email</td>
+            <td>@u.Description</td>
             <td>
                 <form asp-action="ConfirmEmployeer" asp-controller="Developer" asp-route-id="@u.Id">
                     <input type="submit" value="Додати" class="form-control" />

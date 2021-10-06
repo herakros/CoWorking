@@ -1,4 +1,4 @@
-﻿@model List<TestCoWorking.Models.User>
+﻿@model List<TestCoWorking.Models.Employee>
 @{
     ViewData["Title"] = "Користувачі";
     Layout = "_DevLayout";
@@ -16,7 +16,9 @@
     @foreach (var e in Model)
     {
         <tr>
+            <td>@e.FullName</td>
             <td>@e.Email</td>
+            <td>@e.Description</td>
             <td>
                 <form asp-action="DeleteEmployeer" asp-controller="Developer" asp-route-id="@e.Id">
                     <input type="submit" value="Видалити" class="form-control" />

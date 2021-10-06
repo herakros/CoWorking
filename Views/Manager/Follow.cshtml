@@ -1,4 +1,4 @@
-﻿@model TestCoWorking.Models.User
+﻿@model TestCoWorking.Models.Employee
 @{
     ViewData["Title"] = "Follow";
     Layout = "_ManagerLayout";
@@ -8,6 +8,14 @@
 <h2 class="text-center">@Model.Booking.Name</h2>
 
 <form asp-action="Follow" asp-controller="Manager" class="form-group" method="post">
+    <label asp-for="@Model.FullName">Повне ім'я</label><br/>
+    <input type="text" asp-for="@Model.FullName" /><br />
+
+    <label asp-for="@Model.Email">Пошта</label><br />
+    <input type="text" asp-for="@Model.Email" /><br />
+
+    <label asp-for="@Model.Description">Опис</label><br />
+    <textarea type="text" asp-for="@Model.Description" class="form-control"></textarea><br />
 
     <div>
         <input asp-for="BookingId" value="@Model.BookingId" type="hidden"/>
