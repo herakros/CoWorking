@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TestCoWorking.Data;
 using TestCoWorking.Models;
+using TestCoWorking.ViewModels;
 using TestCoWorking.VIewModels;
 
 namespace TestCoWorking.Controllers
