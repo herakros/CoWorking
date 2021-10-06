@@ -53,7 +53,6 @@ namespace TestCoWorking.Controllers
             {
                 var place = await db.Place.FirstOrDefaultAsync();
                 place.Count = (int)model.Count;
-                AddBookings(place, (int)model.Count);
 
                 db.Place.Update(place);
                 await db.SaveChangesAsync();
@@ -62,14 +61,6 @@ namespace TestCoWorking.Controllers
             }
 
             return View();
-        }
-
-        private void AddBookings(Place place, int count)
-        {
-            for(int i = 0; i < count; i++)
-            {
-                place.Bookings.Add(new Booking());
-            }
         }
 
         [HttpGet]

@@ -84,7 +84,7 @@ namespace TestCoWorking.Controllers
         [HttpGet]
         public async Task<IActionResult> Account()
         {
-            var booking = await db.Bookings.ToArrayAsync();
+            var booking = await db.Bookings.Where(b => b.Approved == true).ToArrayAsync();
             return View(booking);
         }
     }
