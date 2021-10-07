@@ -6,22 +6,26 @@
 <h1 class="text-center">Бронювання</h1>
 
 <table class="table">
-    <tr>
-        <th>Ім'я</th>
-        <th>Пошта розробника</th>
-        <th>Кількість вільних місць</th>
-        <th>Початок</th>
-        <th>Кінець</th>
-    </tr>
-    @foreach (var b in Model)
-    {
+    <thead class="thead-dark">
         <tr>
-            <td>@b.Name</td>
-            <td>@b.DevEmail</td>
-            <td>@b.EmployeerCount</td>
-            <td>@b.Start</td>
-            <td>@b.End</td>
+            <th>Ім'я</th>
+            <th>Пошта розробника</th>
+            <th>Кількість вільних місць</th>
+            <th>Початок</th>
+            <th>Кінець</th>
         </tr>
-    }
+    </thead>
+    <tbody>
+        @foreach (var b in Model)
+        {
+            <tr>
+                <td>@b.Name</td>
+                <td>@b.DevEmail</td>
+                <td>@b.EmployeerCount</td>
+                <td>@b.Start.ToString("d")</td>
+                <td>@b.End.ToString("d")</td>
+            </tr>
+        }
+    </tbody>
 </table>
 
