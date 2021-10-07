@@ -11,7 +11,6 @@ namespace TestCoWorking.Models
 
         public string UserName { get; set; }
 
-
         public string Message { get; set; }
 
         public int? BookingId { get; set; }

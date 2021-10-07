@@ -7,28 +7,38 @@
 
 <h1 class="text-center">Бронювання, що очікують на підтвердження</h1>
 
-<div class="container">
-    <table class="table">
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Start</th>
-            <th>End</th>
-            <th>&nbsp;</th>
-            <th>&nbsp;</th>
-        </tr>
-        @foreach (var u in Model)
-        {
-            <tr>
-                <td>@u.Id</td>
-                <td>@u.Name</td>
-                <td>@u.DevEmail</td>
-                <td>@u.Start</td>
-                <td>@u.End</td>
-                <td><a asp-action="ConfirmBook" asp-controller="Admin" asp-route-id="@u.Id">Затвердити</a></td>
-            </tr>
-        }
-    </table>
-</div>
+@if (Model.Length > 0)
+{
+    <div class="container">
+        <table class="table">
+            <thead class="table-dark">
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Start</th>
+                    <th>End</th>
+                    <th>&nbsp;</th>
+                    <th>&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var u in Model)
+                {
+                    <tr>
+                        <td>@u.Name</td>
+                        <td>@u.DevEmail</td>
+                        <td>@u.Start.ToString("d")</td>
+                        <td>@u.End.ToString("d")</td>
+                        <td><a asp-action="ConfirmBook" asp-controller="Admin" asp-route-id="@u.Id" class="btn btn-success">Затвердити</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+}
+else
+{
+    <h4 class="text-center">Немає нових бронювань</h4>
+}
 

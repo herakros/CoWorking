@@ -6,28 +6,31 @@
 
 <h1 class="text-center">Список користувів</h1>
 
-<h2>Користувачі</h2>
-
 <table class="table">
-    <tr>
-        <th>ID</th>
-        <th>Ім'я</th>
-        <th>Пошта</th>
-        <th>Роль</th>
-        <th>&nbsp;</th>
-        <th>&nbsp;</th>
-    </tr>
-    @foreach (var u in Model)
-    {
+    <thead class="table-dark">
         <tr>
-            <td>@u.Id</td>
-            <td>@u.NickName</td>
-            <td>@u.Email</td>
-            <td>@u.Role.Name</td>
-            <td><a asp-action="EditUser" asp-controller="Admin" asp-route-id="@u.Id" class="btn btn-success">Редагувати</a></td>
-            <td><a asp-action="DeleteUser" asp-controller="Admin" asp-route-id="@u.Id" class="btn btn-danger">Видалити</a></td>
+            <th>Ім'я</th>
+            <th>Пошта</th>
+            <th>Роль</th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
         </tr>
-    }
+    </thead>
+    <tbody>
+        @foreach (var u in Model)
+        {
+            <tr>
+                <td>@u.NickName</td>
+                <td>@u.Email</td>
+                <td>@u.Role.Name</td>
+                @if(u.Role.Name != "Admin")
+                { 
+                    <td><a asp-action="EditUser" asp-controller="Admin" asp-route-id="@u.Id" class="btn btn-success">Редагувати</a></td>
+                    <td><a asp-action="DeleteUser" asp-controller="Admin" asp-route-id="@u.Id" class="btn btn-danger">Видалити</a></td>
+                }
+            </tr>
+        }
+    </tbody>
 </table>
 
 

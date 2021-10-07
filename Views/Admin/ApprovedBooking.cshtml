@@ -6,34 +6,44 @@
 
 <h1 class="text-center">Список бронювань</h1>
 
-<div class="container" >
-    <table class="table">
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Кількість вільних місць</th>
-            <th>Approver</th>
-            <th>Start</th>
-            <th>End</th>
-            <th>&nbsp;</th>
-            <th>&nbsp;</th>
-        </tr>
-        @foreach (var u in Model)
-        {
-            <tr>
-                <td>@u.Id</td>
-                <td>@u.Name</td>
-                <td>@u.DevEmail</td>
-                <td>@u.EmployeerCount</td>
-                <td>@u.Approved</td>
-                <td>@u.Start</td>
-                <td>@u.End</td>
-                <td><a asp-action="EditBooking" asp-controller="Admin" asp-route-id="@u.Id">Редагувати</a></td>
-                <td><a asp-action="DeleteBooking" asp-controller="Admin" asp-route-id="@u.Id">Видалити</a></td>
-            </tr>
-        }
-    </table>
-</div>
+@if (Model.Length > 0)
+{
+    <div class="container">
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Free places</th>
+                    <th>Approved</th>
+                    <th>Start</th>
+                    <th>End</th>
+                    <th>&nbsp;</th>
+                    <th>&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var u in Model)
+                {
+                    <tr>
+                        <td>@u.Name</td>
+                        <td>@u.DevEmail</td>
+                        <td>@u.EmployeerCount</td>
+                        <td>@u.Approved</td>
+                        <td>@u.Start.ToString("d")</td>
+                        <td>@u.End.ToString("d")</td>
+                        <td><a asp-action="EditBooking" asp-controller="Admin" asp-route-id="@u.Id" class="btn btn-success">Редагувати</a></td>
+                        <td><a asp-action="DeleteBooking" asp-controller="Admin" asp-route-id="@u.Id" class="btn btn-danger">Видалити</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <h4 class="text-center">Немає активних бронювань</h4>
+}
+
 
 

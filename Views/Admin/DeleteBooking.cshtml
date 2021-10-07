@@ -6,8 +6,9 @@
 
 <h1 class="text-center">Видалення бронювання</h1>
 
-<div>
+<div class="container">
     <dl class="dl-horizontal">
+        <dt class="text-center">Дані бронювання</dt>
         <dt>Ім'я</dt>
         <dd>@Model.Name</dd>
         <dt>Пошта</dt>
@@ -21,7 +22,7 @@
     <div>
         <form asp-controller="Admin" asp-action="DeleteBooking" method="post">
             <div class="form-group">
-                <input type="submit" class="form-control" value="Видалити" />
+                <input type="submit" class="form-control btn-danger" value="Видалити" />
             </div>
         </form>
     </div>

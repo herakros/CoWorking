@@ -1,9 +1,44 @@
-﻿
+﻿@model TestCoWorking.ViewModels.AdminAccountModel
 @{
     ViewData["Title"] = "Account";
     Layout = "_AdminLayout";
 }
+<h1 class="text-center">Адмін панель</h1>
 
+<table class="table">
+    <tr>
+        <td class="h5">
+            Кількість користувачів - @Model.UserCount
+        </td>
+        <td class="text-center">
+            <a asp-action="UserList" asp-controller="Admin" class="btn btn-outline-dark">Переглянути</a>
+        </td>
+    </tr>
+    <tr>
+        <td class="h5">
+            Кількість активних бронювань - @Model.BookingApprovedCount
+        </td>
+        <td class="text-center">
+            <a asp-action="ApprovedBooking" asp-controller="Admin" class="btn btn-outline-dark">Переглянути</a>
+        </td>
+    </tr>
+    <tr>
+        <td class="h5">
+            Очікуючих підтвердження - @Model.BookingPendingApprovedCount
+        </td>
+        <td class="text-center">
+            <a asp-action="PendingApproved" asp-controller="Admin" class="btn btn-outline-dark">Переглянути</a>
+        </td>
+    </tr>
+    <tr>
+        <td class="h5">
+            Загальна кількість бронювань - @Model.BookingCount
+        </td>
+        <td>
+            &nbsp;
+        </td>
+    </tr>
+</table>
 
 
 

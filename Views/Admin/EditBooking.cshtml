@@ -1,11 +1,15 @@
-﻿@model TestCoWorking.Models.Booking
+﻿@model TestCoWorking.ViewModels.EditBookingModel
 @{
     ViewData["Title"] = "Редагування бронювання";
     Layout = "_AdminLayout";
 }
 
 
-<form asp-action="EditBooking" asp-controller="Admin" asp-route-id="@Model.Id">
+<form asp-action="EditBooking" asp-controller="Admin" method="post" asp-anti-forgery="true" class="form-group">
+    <div asp-validation-summary="All" class="form-group"></div>
+    <div class="form-group">
+        <input type="hidden" asp-for="Id"/>
+    </div>
     <div class="form-group">
         <label asp-for="Name" class="control-label">Ім'я</label>
         <input type="text" asp-for="Name" class="form-control" />
@@ -27,10 +31,7 @@
         <input type="date" asp-for="End" class="form-control" />
     </div>
     <div class="form-group">
-        <input type="hidden" asp-for="Approved" value="@Model.Approved"/>
-    </div>
-    <div class="form-group">
-        <input type="submit" value="Зберегти" class="form-control" />
+        <input type="submit" value="Зберегти" class="form-control btn-success" />
     </div>
 </form>
 
