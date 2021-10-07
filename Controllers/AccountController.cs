@@ -34,7 +34,8 @@ namespace TestCoWorking.Controllers
             {
                 if (model.Role == "Admin")
                 {
-                    return RedirectToAction("Warning", "Home");
+                    ModelState.AddModelError("", "Ви не можете стати адміном");
+                    return View(model);
                 }
 
                 if (model.Password != model.ConfirmPassword)
@@ -46,7 +47,6 @@ namespace TestCoWorking.Controllers
                 User user = await db.Users.FirstOrDefaultAsync(u => u.Email == model.Email 
                 && u.Password == model.Password 
                 && u.NickName == model.NickName);
-
 
                 if(user == null)
                 {
@@ -73,7 +73,7 @@ namespace TestCoWorking.Controllers
             }
             else
             {
-                return View();
+                return View(model);
             }
         }
 
