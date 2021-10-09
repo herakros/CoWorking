@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TestCoWorking.Data;
 using TestCoWorking.Models;
+using TestCoWorking.ViewModels;
 
 namespace TestCoWorking.Controllers
 {
@@ -22,8 +23,16 @@ namespace TestCoWorking.Controllers
         [HttpGet]
         public async Task<IActionResult> Account()
         {
-            var book = await db.Bookings.FirstOrDefaultAsync(b => b.DevEmail == User.Identity.Name);
-            return View(book);
+            var book = await db.Bookings.Include(e => e.ReservedEmployeer).Include(c => c.Comments).FirstOrDefaultAsync(b => b.DevEmail == User.Identity.Name);
+            var model = new DeveloperAccountModel()
+            {
+                Booking = book,
+                CommentsCount = book.Comments.Count,
+                FollowedUsersCount = book.ReservedEmployeer.Where(e => e.Appoved == true).Count(),
+                EmployeerWantSignCount = book.ReservedEmployeer.Where(e => e.Appoved == false).Count()
+            };
+
+            return View(model);
         }
 
         [HttpGet]
@@ -33,21 +42,28 @@ namespace TestCoWorking.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(Booking booking)
+        public async Task<IActionResult> Add(AddBookingModel model)
         {
-            if(booking != null)
+            if(ModelState.IsValid)
             {
-                booking.DevEmail = User.Identity.Name;
-                db.Bookings.Add(booking);
+                var book = new Booking()
+                {
+                    Name = model.Name,
+                    Start = (DateTime)model.Start,
+                    End = (DateTime)model.End,
+                    Description = model.Description,
+                    EmployeerCount = (int)model.EmployeerCount,
+                    DevEmail = User.Identity.Name
+                };
+
+                db.Bookings.Add(book);
 
                 await db.SaveChangesAsync();
 
-                return RedirectToAction("Account", "Developer");                              
+                return RedirectToAction("Account", "Developer");               
             }
 
-            ModelState.AddModelError("", "Перевірта введені дані");
-
-            return View();
+            return View(model);
         }
 
         [HttpGet]
@@ -57,19 +73,43 @@ namespace TestCoWorking.Controllers
 
             if(book != null)
             {
-                return View(book);
+                var editModel = new EditBookingModel()
+                {
+                    Id = book.Id,
+                    Name = book.Name,
+                    DevEmail = book.DevEmail,
+                    EmployeerCount = book.EmployeerCount,
+                    Start = book.Start,
+                    End = book.End
+                };
+
+                return View(editModel);
             }
 
             return RedirectToAction("Account", "Developer");
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(Booking booking)
+        public async Task<IActionResult> Edit(EditBookingModel model)
         {
-            db.Bookings.Update(booking);
-            await db.SaveChangesAsync();
+            if(ModelState.IsValid)
+            {
+                var book = await db.Bookings.FirstOrDefaultAsync(b => b.Id == model.Id);
 
-            return RedirectToAction("Account", "Developer");
+                book.Name = model.Name;
+                book.DevEmail = model.DevEmail;
+                book.Description = model.Description;
+                book.Start = model.Start;
+                book.End = model.End;
+                book.EmployeerCount = (int)model.EmployeerCount;
+
+                db.Bookings.Update(book);
+                await db.SaveChangesAsync();
+
+                return RedirectToAction("Account", "Developer");
+            }
+
+            return View(model);
         }
 
         [HttpGet]
@@ -149,9 +189,9 @@ namespace TestCoWorking.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Comments()
+        public async Task<IActionResult> Comments(int? id)
         {
-            var book = await db.Bookings.Include(b => b.Comments).FirstOrDefaultAsync(b => b.DevEmail == User.Identity.Name);
+            var book = await db.Bookings.Include(b => b.Comments).FirstOrDefaultAsync(b => b.Id == id);
 
             if (book != null)
             {              

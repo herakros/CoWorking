@@ -12,16 +12,16 @@
         <dd>@Model.Name</dd>
 
         <dt>Початок</dt>
-        <dd>@Model.Start</dd>
+        <dd>@Model.Start.ToString("d")</dd>
 
         <dt>Кінець</dt>
-        <dd>@Model.End</dd>
+        <dd>@Model.End.ToString("d")</dd>
     </dl>
 
     <div>
         <form asp-controller="Developer" asp-action="Delete" method="post">
             <div class="form-group">
-                <input type="submit" class="form-control" value="Видалити" />
+                <input type="submit" class="form-control btn btn-danger" value="Видалити" />
             </div>
         </form>
     </div>

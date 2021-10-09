@@ -1,4 +1,4 @@
-﻿@model TestCoWorking.Models.Booking
+﻿@model TestCoWorking.ViewModels.DeveloperAccountModel
 @{
     ViewData["Title"] = "Акаунт";
     Layout = "_DevLayout";
@@ -7,53 +7,83 @@
 @if (Model != null)
 {
     <h1 class="text-center">Ваше бронювання</h1>
-    <table class="table">
-        <tr>
-            <td><a asp-action="Edit" asp-controller="Developer" asp-route-id="@Model.Id" class="btn btn-outline-dark">Редагувати бронювання</a></td>
-        </tr>
-        @if (Model.EmployeerCount == 0)
-        {
+    <div class="form-group">
+        <table class="table">
             <tr>
-                <td><h4>Більше немає доступних місць</h4></td>
+                <th>Назва</th>
+                <th>Кількість вільних місць</th>
+                <th>Старт</th>
+                <th>Кінець</th>
+                <th>Статус</th>
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
             </tr>
-        }
-        else
-        {
             <tr>
-                <td><a asp-action="EmployeesWantToSignUp" asp-controller="Developer" asp-route-id="@Model.Id" class="btn btn-outline-dark">Користувачі, які хочуть записатись</a></td>
+                <td>@Model.Booking.Name</td>
+                <td>@Model.Booking.EmployeerCount</td>
+                <td>@Model.Booking.Start.ToString("d")</td>
+                <td>@Model.Booking.End.ToString("d")</td>
+                @if (Model.Booking.Approved == true)
+                {
+                    <td class="text-success">
+                        @Model.Booking.Approved
+                    </td>
+                }
+                else
+                {
+                    <td class="text-danger">
+                        @Model.Booking.Approved
+                    </td>
+                }
+                <td><a asp-action="Edit" asp-controller="Developer" asp-route-id="@Model.Booking.Id" class="btn btn-dark">Редагувати</a></td>
+                <td><a asp-action="Delete" asp-controller="Developer" asp-route-id="@Model.Booking.Id" class="btn btn-danger">Видалити</a></td>
             </tr>
-        }
-        <tr>
-            <td><a asp-action="FollowedUsers" asp-controller="Developer" asp-route-id="@Model.Id" class="btn btn-outline-dark">Підписані користувачі</a></td>
-        </tr>
-        <tr>
-            <td><a asp-action="Comments" asp-controller="Developer" asp-route-id="@Model.Id" class="btn btn-outline-dark">Коментарі</a></td>
-        </tr>
-    </table>
-    <table class="table">
-        <tr>
-            <th>Назва</th>
-            <th>Кількість вільних місць</th>
-            <th>Старт</th>
-            <th>Кінець</th>
-            <th>Статус</th>
-            <th>&nbsp;</th>
-        </tr>
-        <tr>
-            <td>@Model.Name</td>
-            <td>@Model.EmployeerCount</td>
-            <td>@Model.Start</td>
-            <td>@Model.End</td>
-            <td>@Model.Approved</td>
-            <td><a asp-action="Delete" asp-controller="Developer" asp-route-id="@Model.Id">Видалити</a></td>
-        </tr>
-    </table>
+        </table>
+    </div>
+    <div class="form-group">
+        <table class="table">
+            @if (Model.Booking.EmployeerCount == 0)
+            {
+                <tr>
+                    <td><h4>Більше немає доступних місць</h4></td>
+                    <th>&nbsp;</th>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <td class="h5">
+                        Користувачі, які хочуть записатись - @Model.EmployeerWantSignCount
+                    </td>
+                    <td class="text-center">
+                        <a asp-action="EmployeesWantToSignUp" asp-controller="Developer" asp-route-id="@Model.Booking.Id" class="btn btn-outline-dark">Перейти</a>
+                    </td>
+                </tr>
+            }
+            <tr>
+                <td class="h5">
+                    Підписані користувачі - @Model.FollowedUsersCount
+                </td>
+                <td class="text-center">
+                    <a asp-action="FollowedUsers" asp-controller="Developer" asp-route-id="@Model.Booking.Id" class="btn btn-outline-dark">Перейти</a>
+                </td>
+            </tr>
+            <tr>
+                <td class="h5">
+                    Коментарі - @Model.CommentsCount
+                </td>
+                <td class="text-center">
+                    <a asp-action="Comments" asp-controller="Developer" asp-route-id="@Model.Booking.Id" class="btn btn-outline-dark">Перейти</a>
+                </td>
+            </tr>
+        </table>
+    </div>    
 }
 else
 {
     <div class="text-center">
         <h1>Немає наявних бронювань</h1>
-        <a asp-action="Add" asp-controller="Developer" class="btn btn-outline-dark">Додайте бронювання</a>
+        <a asp-action="Add" asp-controller="Developer" class="btn btn-dark text-white">Додайте бронювання</a>
     </div>
 }
 

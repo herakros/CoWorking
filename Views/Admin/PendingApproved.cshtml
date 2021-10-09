@@ -29,7 +29,8 @@
                         <td>@u.DevEmail</td>
                         <td>@u.Start.ToString("d")</td>
                         <td>@u.End.ToString("d")</td>
-                        <td><a asp-action="ConfirmBook" asp-controller="Admin" asp-route-id="@u.Id" class="btn btn-success">Затвердити</a></td>
+                        <td><a asp-action="ConfirmBook" asp-controller="Admin" asp-route-id="@u.Id" class="btn btn-success">Переглянути</a></td>
+                        <td><a asp-action="DeleteBooking" asp-controller="Admin" asp-route-id="@u.Id" class="btn btn-danger">Відхилити</a></td>
                     </tr>
                 }
             </tbody>

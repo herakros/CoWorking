@@ -25,5 +25,7 @@ namespace TestCoWorking.ViewModels
 
         [Required(ErrorMessage = "Встановіть дату завершення")]
         public DateTime End { get; set; }
+
+        public string Description { get; set; }
     }
 }
