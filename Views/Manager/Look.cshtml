@@ -20,26 +20,40 @@
 
 <div class="text-center">
     <table class="table">
-        <tr>
-            <th>Ім'я</th>
-            <th>Пошта розробника</th>
-            <th>Кількість вільних місць</th>
-            <th>Початок</th>
-            <th>Кінець</th>
-        </tr>
-        <tr>
-            <td>@Model.Booking.Name</td>
-            <td>@Model.Booking.DevEmail</td>
-            <td>@Model.Booking.EmployeerCount</td>
-            <td>@Model.Booking.Start</td>
-            <td>@Model.Booking.End</td>
-        </tr>
+        <thead class="table-dark">
+            <tr>
+                <th>Ім'я</th>
+                <th>Пошта розробника</th>
+                <th>Кількість вільних місць</th>
+                <th>Початок</th>
+                <th>Кінець</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Model.Booking.Name</td>
+                <td>@Model.Booking.DevEmail</td>
+                <td>@Model.Booking.EmployeerCount</td>
+                <td>@Model.Booking.Start.ToString("d")</td>
+                <td>@Model.Booking.End.ToString("d")</td>
+            </tr>
+        </tbody>
     </table>
 </div>
-<div class="table">
-    <h4 class="text-center">Опис</h4><br />
-    <label>@Model.Booking.Description</label>
-</div>
+
+@if(Model.Booking.Description == null)
+{
+    <div class="table">
+        <h4 class="text-center">Опис відсутній</h4>
+    </div>
+}
+else
+{
+   <div class="table">
+        <h4 class="text-center">Опис</h4><br />
+        <label>@Model.Booking.Description</label>
+    </div> 
+}
 
 @if(Model.Booking.EmployeerCount == 0)
 { 
@@ -69,15 +83,16 @@ else
     </table>
 </div>
 <form asp-action="AddComment" asp-controller="Manager" class="form-group" asp-anti-forgery="true">
-    <div class="validation" asp-validation-summary="ModelOnly"></div>
+    <div class="form-group" asp-validation-summary="All"></div>
     <div>
-        <div>
-            <label asp-for="@Model.Text">Ваш коментар</label>
-            <textarea type="text" asp-for="@Model.Text" class="form-control"></textarea>
-            <span asp-validation-for="Text" />
-            <input asp-for="@Model.BookingId" value="@Model.Booking.Id" type="hidden" />
-            <input type="submit" value="Додати" class="form-control" />
-        </div>
+        <input asp-for="@Model.BookingId" value="@Model.Booking.Id" type="hidden" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.Text">Ваш коментар</label>
+        <textarea type="text" asp-for="@Model.Text" class="form-control"></textarea>     
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Додати" class="form-control btn btn-outline-dark" />
     </div>
 </form>
 

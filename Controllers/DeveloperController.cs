@@ -24,15 +24,21 @@ namespace TestCoWorking.Controllers
         public async Task<IActionResult> Account()
         {
             var book = await db.Bookings.Include(e => e.ReservedEmployeer).Include(c => c.Comments).FirstOrDefaultAsync(b => b.DevEmail == User.Identity.Name);
-            var model = new DeveloperAccountModel()
-            {
-                Booking = book,
-                CommentsCount = book.Comments.Count,
-                FollowedUsersCount = book.ReservedEmployeer.Where(e => e.Appoved == true).Count(),
-                EmployeerWantSignCount = book.ReservedEmployeer.Where(e => e.Appoved == false).Count()
-            };
 
-            return View(model);
+            if(book != null)
+            {
+                var model = new DeveloperAccountModel()
+                {
+                    Booking = book,
+                    CommentsCount = book.Comments.Count,
+                    FollowedUsersCount = book.ReservedEmployeer.Where(e => e.Appoved == true).Count(),
+                    EmployeerWantSignCount = book.ReservedEmployeer.Where(e => e.Appoved == false).Count()
+                };
+
+                return View(model);
+            }
+
+            return View(null);
         }
 
         [HttpGet]

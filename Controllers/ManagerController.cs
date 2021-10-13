@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TestCoWorking.Data;
@@ -42,7 +40,7 @@ namespace TestCoWorking.Controllers
         public async Task<IActionResult> Follow(int? id)
         {
             var book = await db.Bookings.FirstOrDefaultAsync(b => b.Id == id);
-            var employee = new Employee() { Booking = book, BookingId = book.Id };
+            var employee = new AddEmployeeModel() { BookingId = book.Id };
 
             if(book != null)
             {
@@ -53,22 +51,31 @@ namespace TestCoWorking.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Follow(Employee employee)
+        public async Task<IActionResult> Follow(AddEmployeeModel model)
         {
-            employee.Id = 0;
-            if(employee != null)
+            if(ModelState.IsValid)
             {
+                var employee = new Employee()
+                {
+                    FullName = model.FullName,
+                    Email = model.Email,
+                    Description = model.Description,
+                    BookingId = model.BookingId,
+                    Booking = await db.Bookings.FirstOrDefaultAsync(b => b.Id == model.BookingId)
+                };
+
                 db.Employees.Add(employee);
                 await db.SaveChangesAsync();
-            }
 
-            return RedirectToAction("Look", "Manager", new { id = employee.BookingId }); 
+                return RedirectToAction("Look", "Manager", new { id = model.BookingId });
+            }
+            return View(model);
         }
 
         [HttpPost]
         public async Task<IActionResult> AddComment(LookBookingModel model)
         {            
-            if(model.Text != null)
+            if(ModelState.IsValid)
             {
                 var user = await db.Users.FirstOrDefaultAsync(u => u.Email == User.Identity.Name);
 
@@ -77,9 +84,15 @@ namespace TestCoWorking.Controllers
                 db.Comments.Add(comment);
 
                 await db.SaveChangesAsync();
+
+                model.Text = string.Empty;
             }
 
-            return RedirectToAction("Look", "Manager", new { id = model.BookingId });
+            return View("Look", new LookBookingModel() 
+            { 
+                Booking = await db.Bookings.Include(c => c.Comments).FirstOrDefaultAsync(b => b.Id == model.BookingId),
+                BookingId = model.BookingId
+            });
         }
 
         [HttpGet]

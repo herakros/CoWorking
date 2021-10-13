@@ -1,26 +1,30 @@
-﻿@model TestCoWorking.Models.Employee
+﻿@model TestCoWorking.ViewModels.AddEmployeeModel
 @{
     ViewData["Title"] = "Follow";
     Layout = "_ManagerLayout";
 }
 
-<h1 class="text-center">Записати користувача для бронювання</h1>
-<h2 class="text-center">@Model.Booking.Name</h2>
+<h1 class="text-center">Записати користувача До бронювання</h1>
 
-<form asp-action="Follow" asp-controller="Manager" class="form-group" method="post">
-    <label asp-for="@Model.FullName">Повне ім'я</label><br/>
-    <input type="text" asp-for="@Model.FullName" /><br />
-
-    <label asp-for="@Model.Email">Пошта</label><br />
-    <input type="text" asp-for="@Model.Email" /><br />
-
-    <label asp-for="@Model.Description">Опис</label><br />
-    <textarea type="text" asp-for="@Model.Description" class="form-control"></textarea><br />
-
+<form asp-action="Follow" asp-controller="Manager" class="form-group" method="post" asp-antiforgery="true">
+    <div class="form-group" asp-validation-summary="All"></div>
+    <div class="form-group">
+        <label asp-for="@Model.FullName" class="custom-label">Повне ім'я</label>
+        <input type="text" asp-for="@Model.FullName" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.Email" class="custom-label">Пошта</label>
+        <input type="text" asp-for="@Model.Email" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.Description" class="custom-label">Опис</label><br />
+        <textarea type="text" asp-for="@Model.Description" class="form-control"></textarea><br />
+    </div>
     <div>
         <input asp-for="BookingId" value="@Model.BookingId" type="hidden"/>
     </div>
-
-    <input type="submit" value="Додати" class="form-control" />
+    <div class="form-group">
+        <input type="submit" value="Додати" class="form-control btn btn-success" />
+    </div>
 </form>
 
