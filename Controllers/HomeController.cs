@@ -27,7 +27,7 @@ namespace TestCoWorking.Controllers
             {
                 var user = db.Users.Include(b => b.Role).FirstOrDefault(u => u.Email == email);
               
-                return RedirectToAction("Account", Char.ToUpper(user.Role.Name[0]) + user.Role.Name.Substring(1));
+                return RedirectToAction("Account", user.Role.Name);
             }
 
             return RedirectToAction("Reservation", "Home");
